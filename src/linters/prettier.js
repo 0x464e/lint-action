@@ -88,7 +88,7 @@ class Prettier {
 
 		// Fall back to stderr if stdout is empty
 		if (lintResult.error.length === 0 && output.stderr) {
-			const matches = output.stdout.matchAll(PARSE_REGEX);
+			const matches = output.stderr.matchAll(PARSE_REGEX);
 			core.error(`found ${matches.length} matches`);
 			for (const match of matches) {
 				core.error(`match: ${JSON.stringify(match)}`);
