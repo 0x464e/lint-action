@@ -4,6 +4,7 @@ const { run } = require("../utils/action");
 const commandExists = require("../utils/command-exists");
 const { initLintResult } = require("../utils/lint-result");
 const { getNpmBinCommand } = require("../utils/npm/get-npm-bin-command");
+const core = require("@actions/core");
 
 /** @typedef {import('../utils/lint-result').LintResult} LintResult */
 
@@ -82,10 +83,14 @@ class Prettier {
 					"There are issues with this file's formatting, please run Prettier to fix the errors",
 			}));
 
+		core.error(`lintResult.error: ${JSON.stringify(lintResult.error)}`);
+		core.error(`output.stderr: ${JSON.stringify(output.stderr)}`);
+
 		// Fall back to stderr if stdout is empty
 		if (lintResult.error.length === 0 && output.stderr) {
 			const matches = output.stdout.matchAll(PARSE_REGEX);
 			for (const match of matches) {
+				core.error(`match: ${JSON.stringify(match)}`);
 				const [_, level, pathFull, text, line] = match;
 				const leadingSep = `.${sep}`;
 				let path = pathFull;
