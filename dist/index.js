@@ -8202,7 +8202,6 @@ const { run } = __nccwpck_require__(9575);
 const commandExists = __nccwpck_require__(5265);
 const { initLintResult } = __nccwpck_require__(9149);
 const { getNpmBinCommand } = __nccwpck_require__(1838);
-const core = __nccwpck_require__(2186);
 
 /** @typedef {import('../utils/lint-result').LintResult} LintResult */
 
@@ -8281,15 +8280,10 @@ class Prettier {
 					"There are issues with this file's formatting, please run Prettier to fix the errors",
 			}));
 
-		core.error(`lintResult.error: ${JSON.stringify(lintResult.error)}`);
-		core.error(`output.stderr: ${JSON.stringify(output.stderr)}`);
-
 		// Fall back to stderr if stdout is empty
 		if (lintResult.error.length === 0 && output.stderr) {
 			const matches = output.stderr.matchAll(PARSE_REGEX);
-			core.error(`found ${matches.length} matches`);
 			for (const match of matches) {
-				core.error(`match: ${JSON.stringify(match)}`);
 				const [_, level, pathFull, text, line] = match;
 				const leadingSep = `.${sep}`;
 				let path = pathFull;
